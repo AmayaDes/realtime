@@ -76,3 +76,16 @@ jobs:
           app-name: 'measurementsMirrorMe'
           slot-name: 'Production'
           
+      - name: 'Restart Azure Web App'
+        uses: azure/webapps-restart@v2
+        with:
+          app-name: 'measurementsMirrorMe'
+          slot-name: 'Production'
+
+      - name: 'Run Flask Application'
+        run: |
+          cd $HOME/site/wwwroot
+          python app.py    
+
+          
+          
