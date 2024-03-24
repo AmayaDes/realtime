@@ -71,7 +71,7 @@ jobs:
 
       - name: 'Run Flask Application'
         run: |
-          cd $HOME/site/wwwroot
+          cd $GITHUB_WORKSPACE
           python app.py    
 
           
