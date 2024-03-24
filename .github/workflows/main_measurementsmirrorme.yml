@@ -73,21 +73,12 @@ jobs:
         run: |
          cd $GITHUB_WORKSPACE
          source venv/bin/activate
-         pip install Flask
+         pip install -r requirements.t
 
       - name: 'Run Flask Application'
         run: |
           cd $GITHUB_WORKSPACE
           source venv/bin/activate
           python app.py
-
-    
-
-      - name: 'Run Flask Application'
-        run: |
-          cd $GITHUB_WORKSPACE
-          . venv/bin/activate
-          python app.py    
-
           
           
