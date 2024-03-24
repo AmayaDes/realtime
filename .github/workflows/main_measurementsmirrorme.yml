@@ -68,17 +68,5 @@ jobs:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E3549E3BA43449EBB89349E7AAFE5792 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E597324E161447BACEE6DAD6B9818C5 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B79B05AD1BCD458C871BE97C76A9CF2B }}
-
-      - name: 'Install Flask'
-        run: |
-         cd $GITHUB_WORKSPACE
-         source venv/bin/activate
-         pip install -r requirements.txt
-
-      - name: 'Run Flask Application'
-        run: |
-          cd $GITHUB_WORKSPACE
-          source venv/bin/activate
-          python app.py
           
           
