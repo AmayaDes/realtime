@@ -69,6 +69,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E597324E161447BACEE6DAD6B9818C5 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B79B05AD1BCD458C871BE97C76A9CF2B }}
 
+      - name: Debug - List installed packages
+        run: |
+          source venv/bin/activate
+          pip list
+    
+
       - name: 'Run Flask Application'
         run: |
           cd $GITHUB_WORKSPACE
