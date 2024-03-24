@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Python version
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v1
         with:
           python-version: '3.11'
 
@@ -65,8 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E3549E3BA43449EBB89349E7AAFE5792 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2E597324E161447BACEE6DAD6B9818C5 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B79B05AD1BCD458C871BE97C76A9CF2B }}
-          
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D078099EFD7246DF927CD06ACEF841F4 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7F3AE59DA600465F9395F548BF592BED }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6C7ADD45E4774657B7C92C1BFDD69DF2 }}
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
+        with:
+          app-name: 'measurementsMirrorMe'
+          slot-name: 'Production'
           
