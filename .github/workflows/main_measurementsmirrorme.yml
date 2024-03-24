@@ -78,7 +78,8 @@ jobs:
       - name: 'Run Flask Application'
         run: |
           cd $GITHUB_WORKSPACE
-          source venv/bin/activate && python app.py    
+          . venv/bin/activate
+          python app.py    
 
           
           
