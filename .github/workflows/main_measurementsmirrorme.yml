@@ -10,57 +10,31 @@ on:
       - main
   workflow_dispatch:
   
-  jobs:
-     build:
-       runs-on: ubuntu-latest
-
-       steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
-
-       - name: Set up Python
-         uses: actions/setup-python@v2
-         with:
-          python-version: '3.11'
-
-       - name: Install dependencies
-         run: pip install -r requirements.txt
-
-       - name: Run tests
-         run: pytest
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python version
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-      
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-        
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+    - name: Run tests
+      run: pytest
 
-      - name: Upload artifact for deployment jobs
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-app
-          path: |
-            release.zip
-            !venv/
+    - name: Create deployment artifact
+      run: |
+        zip -r deployment.zip .
+        mv deployment.zip $GITHUB_WORKSPACE/deployment.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -68,30 +42,11 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v2
         with:
-          name: python-app
+          name: deployment
 
-      - name: Unzip artifact for deployment
-        run: unzip release.zip
-
-      
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D078099EFD7246DF927CD06ACEF841F4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7F3AE59DA600465F9395F548BF592BED }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6C7ADD45E4774657B7C92C1BFDD69DF2 }}
-
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
-        with:
-          app-name: 'measurementsMirrorMe'
-          slot-name: 'Production'
-          
+  
